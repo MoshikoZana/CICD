@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: polybot
+  labels:
+    app: poly
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: poly
+  template:
+    metadata:
+      labels:
+        app: poly
+    spec:
+      volumes:
+        - name: tls-volume
+          secret:
+            secretName: tls-secret
+      containers:
+      - name: poly
+        image: moshikozana/poly-aws:latestv2
+        env:
+          - name: REGION_NAME
+            value: "eu-north-1"
+          - name: TELEGRAM_APP_URL
+            value: moshiko-bot.devops-int-college.com
+        volumeMounts:
+        - name: tls-volume
+          readOnly: true
+          mountPath: "/tls-volume"
+        resources:
+          requests:
+            memory: "100Mi"
+            cpu: "100m"
+          limits:
+            memory: "200Mi"
+            cpu: "200m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: poly-service
+spec:
+  selector:
+    app: poly
+  ports:
+    - protocol: TCP
+      port: 8443
+      targetPort: 8443
+  type: ClusterIP
