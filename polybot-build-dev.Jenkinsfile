@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER_CREDENTIALS = credentials('docker_credentials')
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -22,10 +26,13 @@ pipeline {
                 }
             }
         }
-        stage('Push') {
+        stage('Login and Push to Dockerhub') {
             steps {
-                // Push Docker image to Docker registry
-                script {
+                withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    // Login to Docker Hub
+                    sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
+
+                    // Push Docker image to Docker registry
                     docker.withRegistry('https://hub.docker.com/', 'docker_credentials') {
                         docker.image("moshikozana/cicd-poly:${imageTag}").push()
                     }
