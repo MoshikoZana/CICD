@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKER_CREDENTIALS = credentials('docker_credentials')
-    }
-
     stages {
         stage('Checkout') {
             steps {
@@ -22,10 +18,14 @@ pipeline {
             }
         }
         stage('Login and Push to Dockerhub') {
+            environment {
+                DOCKER_USERNAME = credentials('docker_username')
+                DOCKER_PASSWORD = credentials('docker_password')
+            }
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS)]) {
-                        docker.withRegistry(url: 'https://hub.docker.com/', credentialsId: DOCKER_CREDENTIALS) {
+                    withCredentials([usernamePassword(credentialsId: 'docker_credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        docker.withRegistry('https://hub.docker.com/', 'docker_credentials') {
                             docker.image("moshikozana/cicd-poly:${imageTag}").push()
                         }
                     }
