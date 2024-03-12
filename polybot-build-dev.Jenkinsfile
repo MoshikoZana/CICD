@@ -22,11 +22,13 @@ pipeline {
             }
         }
         stage('Login and Push to Dockerhub') {
-    steps {
-        script {
-            withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS)]) {
-                docker.withRegistry(url: 'https://hub.docker.com/', credentialsId: DOCKER_CREDENTIALS) {
-                    docker.image("moshikozana/cicd-poly:${imageTag}").push()
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS)]) {
+                        docker.withRegistry(url: 'https://hub.docker.com/', credentialsId: DOCKER_CREDENTIALS) {
+                            docker.image("moshikozana/cicd-poly:${imageTag}").push()
+                        }
+                    }
                 }
             }
         }
