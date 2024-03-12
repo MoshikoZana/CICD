@@ -12,11 +12,11 @@ pipeline {
             steps {
                 // Navigate to polybot directory
                 dir('polybot') {
-                    // Generating unique image tag
-                    def imageTag = "${env.BUILD_NUMBER}-${env.GIT_COMMIT}"
-
-                    // Build Docker image
+                    // Generate a unique image tag
                     script {
+                        def imageTag = "${env.BUILD_NUMBER}-${env.GIT_COMMIT}"
+
+                        // Build Docker image
                         docker.build("moshikozana/cicd-poly:${imageTag}")
                     }
                 }
