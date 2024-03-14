@@ -1,33 +1,50 @@
 pipeline {
     agent any
-
+    environment {
+        DOCKER_CREDENTIALS = credentials('docker_credentials')
+        IMAGE_URL = "moshikozana/cicd-poly"
+    }
     stages {
-        stage('Checkout') {
-            steps {
-                // Checkout source code from repository
-                git branch: 'dev', url: 'https://github.com/MoshikoZana/CICD.git'
-            }
-        }
         stage('Build') {
             steps {
-                // Navigate to polybot directory
+                // Navigate to the directory containing Dockerfile
                 dir('polybot') {
-                    // Generating unique image tag
-                    def imageTag = "${env.BUILD_NUMBER}-${env.GIT_COMMIT}"
+                    sh '''
+                        pwd
+                        echo ${BUILD_NUMBER}
+                        docker build -t polybotcicd:${BUILD_NUMBER} .
+                        docker tag polybotcicd:${BUILD_NUMBER} $IMAGE_URL:${BUILD_NUMBER}
+                    '''
+                }
+            }
+        }
 
-                    // Build Docker image
+        stage('Upload image to Docker Hub') {
+            steps {
+                sh'''
+                    echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin
+                    docker push $IMAGE_URL:${BUILD_NUMBER}
+                '''
+            }
+            post {
+                always {
                     script {
-                        docker.build("moshikozana/cicd-poly:${imageTag}")
+                        sh '''
+                            docker system prune -a --force
+                        '''
                     }
                 }
             }
         }
-        stage('Push') {
+
+        stage('Trigger Deploy job') {
             steps {
-                // Push Docker image to Docker registry
                 script {
-                    docker.withRegistry('https://hub.docker.com/', 'docker_credentials') {
-                        docker.image("moshikozana/cicd-poly:${imageTag}").push()
+                    def deploy_job = build job: 'polybotDeploy', wait: false, parameters: [
+                        string(name: 'POLY_IMAGE_URL', value: "${IMAGE_URL}:${BUILD_NUMBER}")
+                    ]
+                    if (deploy_job == "FAILURE") {
+                        error "Deploy job failed"
                     }
                 }
             }
