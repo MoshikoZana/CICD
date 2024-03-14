@@ -8,7 +8,7 @@ pipeline {
         stage('Build') {
             steps {
                 // Checkout code from GitHub repository
-                git 'https://github.com/yourusername/yourrepository.git'
+                git 'https://github.com/MoshikoZana/CICD.git'
 
                 // Navigate to the directory containing Dockerfile
                 dir('Polybot') {
