@@ -37,7 +37,7 @@ pipeline {
             }
         }
 
-        stage('Trigger Deploy job') {
+        /* stage('Trigger Deploy job') {
             steps {
                 script {
                     def deploy_job = build job: 'polybotDeploy', wait: false, parameters: [
@@ -50,4 +50,4 @@ pipeline {
             }
         }
     }
-}
+} */
