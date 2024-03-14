@@ -37,17 +37,17 @@ pipeline {
             }
         }
 
-        /* stage('Trigger Deploy job') {
-            steps {
-                script {
-                    def deploy_job = build job: 'polybotDeploy', wait: false, parameters: [
-                        string(name: 'POLY_IMAGE_URL', value: "${IMAGE_URL}:${BUILD_NUMBER}")
-                    ]
-                    if (deploy_job == "FAILURE") {
-                        error "Deploy job failed"
-                    }
-                }
-            }
-        }
-    }
-} */
+// stage('Trigger Deploy job') {
+//     steps {
+//         script {
+//             def deploy_job = build job: 'polybotDeploy', wait: false, parameters: [
+//                 string(name: 'POLY_IMAGE_URL', value: "${IMAGE_URL}:${BUILD_NUMBER}")
+//             ]
+//             if (deploy_job == "FAILURE") {
+//                 error "Deploy job failed"
+//             }
+//         }
+//     }
+// }
+// }
+
