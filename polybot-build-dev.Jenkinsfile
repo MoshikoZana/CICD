@@ -37,15 +37,13 @@ pipeline {
             }
         }
 
-         stage('Trigger Deploy job') {
+        stage('Trigger Deploy job') {
             steps {
-                script {
-                    def deploy_job = build job: 'releases-prod', wait: false, parameters: [
-                        string(name: 'IMAGE_URL', value: "${IMAGE_URL}:${BUILD_NUMBER}.prod")
-                    ]
-                    if (deploy_job == "FAILURE") {
-                        error "Deploy job failed"
-                    }
+                build job: 'releases', wait: false, parameters: [
+                    string(name: 'POLYBOT_PROD_IMAGE_URL', value: "${IMAGE_URL}:${BUILD_NUMBER}.prod")
+                ]
+                if (deploy_job == "FAILURE") {
+                    error "Deploy job failed"
                 }
             }
         }
