@@ -10,6 +10,8 @@ pipeline {
             steps {
                 sh """
                 withCredentials([usernamePassword(credentialsId: 'github', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                git config --global user.email "Jenkins@ip-10-0-0-178"
+                git config --global user.name "Jenkins"
                 git checkout releases
                 git merge main
 
