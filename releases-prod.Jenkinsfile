@@ -9,6 +9,7 @@ pipeline {
         stage('Update YAML') {
             steps {
                 sh """
+                withCredentials([usernamePassword(credentialsId: 'github', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                 git checkout releases
                 git merge main
 
@@ -16,7 +17,7 @@ pipeline {
 
                 git add k8s/prod/polybot.yaml
                 git commit -m "$POLY_IMAGE_URL"
-                git push origin releases
+                git push https://moshikozana:$PASSWORD@github.com/MoshikoZana/Object-Detection-Service-CICD.git releases
                 """
             }
         }
