@@ -36,5 +36,16 @@ pipeline {
                 }
             }
         }
+
+        stage('Trigger Deploy job') {
+            steps {
+                build job: 'releases', wait: false, parameters: [
+                    string(name: 'POLYBOT_PROD_IMAGE_URL', value: "${IMAGE_URL}:${BUILD_NUMBER}.prod")
+                ]
+                if (deploy_job == "FAILURE") {
+                    error "Deploy job failed"
+                }
+            }
+        }
     }
 }
