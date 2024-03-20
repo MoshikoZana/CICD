@@ -36,6 +36,8 @@ pipeline {
                 }
             }
         }
+    }
+}
 
         /* stage('Trigger Deploy job') {
             steps {
@@ -44,7 +46,7 @@ pipeline {
                         string(name: 'POLY_IMAGE_URL', value: "${IMAGE_URL}:${BUILD_NUMBER}")
                     ]
                     if (deploy_job == "FAILURE") {
-                        error "Deploy job failed"
+                        error "Deploy job failed!"
                     }
                 }
             }
