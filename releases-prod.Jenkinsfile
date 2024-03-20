@@ -1,17 +1,22 @@
 pipeline {
-    agent {
-        image ''
-        args '--user root -v /var/run/docker.sock:/var/run/docker.sock'
+    agent any
+
+    parameters {
+        string(name: 'POLY_IMAGE_URL', defaultValue: '', description: '')
     }
-    environment {
-        DOCKER_CREDENTIALS = credentials('docker_credentials')
-        IMAGE_URL = "moshikozana/cicd-poly"
-        DOCKER_IMAGE_POLYBOT = ""
-    }
-     stages {
-        stage('Update YAML Manifests') {
+
+    stages {
+        stage('Update YAML') {
             steps {
-                script {
-                    // Pull the latest Docker images from Dockerhub
-                    docker.withRegistry('https://index.docker.io/v1/', 'docker_credentials') {
-                        docker.image(DOCKER_IMAGE_POLYBOT).pull()
+                sh """
+                sed -i 's/image: .*/image: $POLY_IMAGE_URL/g' k8s/prod/polybot.yaml
+                git checkout releases
+                git merge main
+                git add k8s/prod/polybot.yaml
+                git commit -m "$POLY_IMAGE_URL"
+                git push origin releases
+                """
+            }
+        }
+    }
+}
