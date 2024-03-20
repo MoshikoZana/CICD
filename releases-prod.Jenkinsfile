@@ -5,14 +5,6 @@ pipeline {
         string(name: 'POLYBOT_PROD_IMAGE_URL', defaultValue: '', description: '')
     }
 
-    stages {
-        stage('BUild') {
-          steps {
-          cleanWs()
-
-          }
-        }
-
         stage('Update YAML') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'github', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
