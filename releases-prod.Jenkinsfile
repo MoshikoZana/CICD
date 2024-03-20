@@ -7,15 +7,12 @@ pipeline {
 
     stages {
         stage('BUild') {
-          steps{
+          steps {
           cleanWs()
 
           }
         }
 
-
-
-        }
         stage('Update YAML') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'github', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
