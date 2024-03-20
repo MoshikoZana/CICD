@@ -4,7 +4,7 @@ pipeline {
     parameters {
         string(name: 'POLYBOT_PROD_IMAGE_URL', defaultValue: '', description: '')
     }
-
+    stages {
         stage('Update YAML') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'github', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
