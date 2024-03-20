@@ -6,12 +6,23 @@ pipeline {
     }
 
     stages {
+        stage('BUild') {
+          steps{
+          cleanWs()
+
+          }
+        }
+
+
+
+        }
         stage('Update YAML') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'github', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
                     sh """
                     git config --global user.email "Jenkins@ip-10-0-0-178"
                     git config --global user.name "Jenkins"
+                    git pull origin/releases
                     git checkout releases
                     git merge origin/main
 
