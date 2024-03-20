@@ -150,4 +150,4 @@ class ObjectDetectionBot(Bot):
     # TODO upload the photo to S3
     # TODO send a job to the SQS queue
     # TODO send message to the Telegram end-user (e.g. Your image is being processed. Please wait...)
-    # hello there!
+    # hello there!! :D
