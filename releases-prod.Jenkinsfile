@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     parameters {
-        string(name: 'POLY_IMAGE_URL', defaultValue: '', description: '')
+        string(name: 'POLYBOT_PROD_IMAGE_URL', defaultValue: '', description: '')
     }
 
     stages {
@@ -13,10 +13,10 @@ pipeline {
                 git checkout releases
                 git merge main
 
-                sed -i "s|image: .*|image: $POLY_IMAGE_URL|g" k8s/prod/polybot.yaml
+                sed -i "s|image: .*|image: $POLYBOT_PROD_IMAGE_URL|g" k8s/prod/polybot.yaml
 
                 git add k8s/prod/polybot.yaml
-                git commit -m "$POLY_IMAGE_URL"
+                git commit -m "$POLYBOT_PROD_IMAGE_URL"
                 git push https://moshikozana:$PASSWORD@github.com/MoshikoZana/Object-Detection-Service-CICD.git releases
                 """
             }
