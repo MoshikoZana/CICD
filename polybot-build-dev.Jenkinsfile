@@ -12,8 +12,8 @@ pipeline {
                     sh '''
                         pwd
                         echo ${BUILD_NUMBER}
-                        docker build -t polybotcicd:${BUILD_NUMBER} .
-                        docker tag polybotcicd:${BUILD_NUMBER} $IMAGE_URL:${BUILD_NUMBER}
+                        docker build -t polybotcicd:$dev.{BUILD_NUMBER} .
+                        docker tag polybotcicd:${BUILD_NUMBER} $IMAGE_URL:$dev.{BUILD_NUMBER}
                     '''
                 }
             }
@@ -23,7 +23,7 @@ pipeline {
             steps {
                 sh'''
                     echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin
-                    docker push $IMAGE_URL:${BUILD_NUMBER}
+                    docker push $IMAGE_URL:$dev.{BUILD_NUMBER}
                 '''
             }
             post {
