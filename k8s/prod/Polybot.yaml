@@ -20,7 +20,7 @@ spec:
             secretName: tls-secret
       containers:
       - name: poly
-        image: moshikozana/cicd-poly:17
+        image: moshikozana/cicd-poly:18
         env:
           - name: REGION_NAME
             value: "eu-north-1"
