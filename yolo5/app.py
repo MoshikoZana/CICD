@@ -133,7 +133,7 @@ def consume():
                 except requests.RequestException as e:
                     logger.error(f'Error in GET request to Polybot: {e}')
 
-            # Delete the message from the queue as the job is considered as DONE
+            # Delete the message from the queue as the job is considered as DONE!
             sqs_client.delete_message(QueueUrl=queue_name, ReceiptHandle=receipt_handle)
 
 
