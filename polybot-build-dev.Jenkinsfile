@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         DOCKER_CREDENTIALS = credentials('docker_credentials')
-        IMAGE_URL = "moshikozana/cicd-poly"
+        IMAGE_URL = "moshikozana/cicd-poly-dev"
     }
     stages {
         stage('Build') {
@@ -36,18 +36,12 @@ pipeline {
                 }
             }
         }
-    }
-}
 
-       stage('Trigger Deploy job') {
+        stage('Trigger Deploy job') {
             steps {
-                 build job: 'releases', wait: false, parameters: [
-                        string(name: 'POLYBOT_PROD_IMAGE_URL', value: "${IMAGE_URL}:${BUILD_NUMBER}.prod")
-                    ]
-                    if (deploy_job == "FAILURE") {
-                        error "Deploy job failed"
-                    }
-                }
+                build job: 'releases-dev', wait: false, parameters: [
+                    string(name: 'POLYBOT_PROD_IMAGE_URL', value: "${IMAGE_URL}:${BUILD_NUMBER}")
+                ]
             }
         }
     }
