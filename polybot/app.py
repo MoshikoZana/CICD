@@ -5,6 +5,8 @@ from bot import ObjectDetectionBot
 import boto3
 from botocore.exceptions import ClientError
 import json
+import signal
+import sys
 
 app = flask.Flask(__name__)
 
@@ -85,6 +87,16 @@ def load_test():
     bot.handle_message(req['message'])
     return 'Ok'
 
+
+def signal_handler(sig, frame):
+    global server_ready
+    print('Shutting down gracefully...')
+    server_ready = False
+    # Perform cleanup tasks here if needed
+    sys.exit(0)
+
+
+signal.signal(signal.SIGTERM, signal_handler)
 
 if __name__ == "__main__":
     bot = ObjectDetectionBot(TELEGRAM_TOKEN, TELEGRAM_APP_URL)
