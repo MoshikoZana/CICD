@@ -12,7 +12,6 @@ pipeline {
                     git config --global user.email "Jenkins@ip-10-0-0-178"
                     git config --global user.name "Jenkins"
                     git checkout origin/releases
-                    git pull origin/dev
                     git merge origin/dev
 
                     sed -i "s|image: .*|image: ${POLYBOT_DEV_IMAGE_URL}|g" k8s/dev/Polybot.yaml
