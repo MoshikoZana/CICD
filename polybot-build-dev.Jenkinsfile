@@ -40,7 +40,7 @@ pipeline {
         stage('Trigger Deploy job') {
             steps {
                 build job: 'releases-dev', wait: false, parameters: [
-                    string(name: 'POLYBOT_PROD_IMAGE_URL', value: "${IMAGE_URL}:dev.\${BUILD_NUMBER}")
+                    string(name: 'POLYBOT_DEV_IMAGE_URL', value: "${IMAGE_URL}:dev.\${BUILD_NUMBER}")
                 ]
             }
         }
