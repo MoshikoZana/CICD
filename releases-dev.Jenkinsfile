@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     parameters {
-        string(name: 'POLYBOT_PROD_IMAGE_URL', defaultValue: '', description: '')
+        string(name: 'POLYBOT_DEV_IMAGE_URL', defaultValue: '', description: '')
     }
     stages {
         stage('Update YAML') {
@@ -12,13 +12,13 @@ pipeline {
                     git config --global user.email "Jenkins@ip-10-0-0-178"
                     git config --global user.name "Jenkins"
                     git checkout releases
-                    git merge origin/main
+                    git merge origin/dev
 
-                    sed -i "s|image: .*|image: ${POLYBOT_PROD_IMAGE_URL}|g" k8s/dev/Polybot.yaml
+                    sed -i "s|image: .*|image: ${POLYBOT_DEV_IMAGE_URL}|g" k8s/dev/Polybot.yaml
 
                     cat k8s/dev/Polybot.yaml
                     git add k8s/dev/Polybot.yaml
-                    git commit -m "$POLYBOT_PROD_IMAGE_URL"
+                    git commit -m "$POLYBOT_DEV_IMAGE_URL"
                     git push https://moshikozana:$PASSWORD@github.com/MoshikoZana/Object-Detection-Service-CICD.git releases
                     """
                 }
