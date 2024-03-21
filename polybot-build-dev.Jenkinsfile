@@ -2,29 +2,29 @@ pipeline {
     agent any
     environment {
         DOCKER_CREDENTIALS = credentials('docker_credentials')
-        IMAGE_URL = "moshikozana/cicd-poly"
+        IMAGE_URL = "moshikozana/cicd-poly-dev"
     }
     stages {
         stage('Build') {
             steps {
                 // Navigate to the directory containing Dockerfile
                 dir('polybot') {
-                    sh '''
+                    sh """
                         pwd
-                        echo ${BUILD_NUMBER}
-                        docker build -t polybotcicd:$dev.{BUILD_NUMBER} .
-                        docker tag polybotcicd:${BUILD_NUMBER} $IMAGE_URL:$dev.{BUILD_NUMBER}
-                    '''
+                        echo \${BUILD_NUMBER}
+                        docker build -t polybotcicd:dev.\${BUILD_NUMBER} .
+                        docker tag polybotcicd:dev.\${BUILD_NUMBER} \$IMAGE_URL:dev.\${BUILD_NUMBER}
+                    """
                 }
             }
         }
 
         stage('Upload image to Docker Hub') {
             steps {
-                sh'''
-                    echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin
-                    docker push $IMAGE_URL:$dev.{BUILD_NUMBER}
-                '''
+                sh"""
+                    echo \$DOCKER_CREDENTIALS_PSW | docker login -u \$DOCKER_CREDENTIALS_USR --password-stdin
+                    docker push \$IMAGE_URL:dev.\${BUILD_NUMBER}
+                """
             }
             post {
                 always {
@@ -39,14 +39,9 @@ pipeline {
 
         stage('Trigger Deploy job') {
             steps {
-                script {
-                    def deploy_job = build job: 'polybotDeploy', wait: false, parameters: [
-                        string(name: 'POLY_IMAGE_URL', value: "${IMAGE_URL}:${BUILD_NUMBER}")
-                    ]
-                    if (deploy_job == "FAILURE") {
-                        error "Deploy job failed"
-                    }
-                }
+                build job: 'releases-dev', wait: false, parameters: [
+                    string(name: 'POLYBOT_PROD_IMAGE_URL', value: "${IMAGE_URL}:dev.\${BUILD_NUMBER}")
+                ]
             }
         }
     }
