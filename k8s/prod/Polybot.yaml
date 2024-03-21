@@ -20,7 +20,7 @@ spec:
             secretName: tls-secret
       containers:
       - name: poly
-        image: 123
+        image: yoohoo
         env:
           - name: REGION_NAME
             value: "eu-north-1"
