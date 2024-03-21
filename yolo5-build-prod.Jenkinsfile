@@ -36,5 +36,12 @@ pipeline {
                 }
             }
         }
+        stage('Trigger Deploy job') {
+            steps {
+                build job: 'releases-prod', wait: false, parameters: [
+                    string(name: 'YOLO5_PROD_IMAGE_URL', value: "${IMAGE_URL}:${BUILD_NUMBER}")
+                ]
+            }
+        }
     }
 }
