@@ -59,8 +59,11 @@ def yolo5Steps() {
         git config --global user.name "Jenkins"
         git checkout releases
         git merge origin/main
-        echo it worked!
-        # Add commands specific to YOLO5
+        sed -i "s|image: .*|image: ${YOLO5_PROD_IMAGE_URL}|g" k8s/prod/yolo5.yaml
+        cat k8s/prod/yolo5.yaml
+        git add k8s/prod/yolo5.yaml
+        git commit -m "${YOLO5_PROD_IMAGE_URL}"
+        git push https://moshikozana:${PASSWORD}@github.com/MoshikoZana/Object-Detection-Service-CICD.git releases
         """
     }
 }
