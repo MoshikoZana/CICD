@@ -42,6 +42,9 @@ def get_secret():
 
 TELEGRAM_TOKEN = get_secret()
 
+# variable for server readiness
+server_ready = False
+
 
 @app.route('/', methods=['GET'])
 def index():
@@ -86,10 +89,6 @@ def load_test():
     req = request.get_json()
     bot.handle_message(req['message'])
     return 'Ok'
-
-
-# variable for server readiness
-server_ready = False
 
 
 @app.route('/ready', methods=['GET'])
