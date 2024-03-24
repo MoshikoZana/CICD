@@ -88,6 +88,18 @@ def load_test():
     return 'Ok'
 
 
+# variable for server readiness
+server_ready = False
+
+
+@app.route('/ready', methods=['GET'])
+def ready():
+    if server_ready:
+        return 'Server is ready', 200
+    else:
+        return 'Server is not ready', 503
+
+
 def signal_handler(sig, frame):
     global server_ready
     print('Shutting down gracefully...')
