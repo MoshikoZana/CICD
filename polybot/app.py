@@ -43,7 +43,7 @@ def get_secret():
 TELEGRAM_TOKEN = get_secret()
 
 # variable for server readiness
-server_ready = False
+server_ready = True
 
 
 @app.route('/', methods=['GET'])
