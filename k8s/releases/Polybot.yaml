@@ -37,6 +37,7 @@ spec:
           limits:
             memory: "200Mi"
             cpu: "200m"
+
 ---
 apiVersion: v1
 kind: Service
@@ -50,6 +51,7 @@ spec:
       port: 8443
       targetPort: 8443
   type: ClusterIP
+
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
