@@ -105,7 +105,7 @@ def consume():
                 json_data = json.dumps(prediction_summary)
 
                 # TODO store the prediction_summary in a DynamoDB table
-                dynamodb_table_name = 'Moshiko-Yolo-Dev'
+                dynamodb_table_name = 'Moshiko-Yolo'
                 response = dynamodb_client.put_item(
                     TableName=dynamodb_table_name,
                     Item={
