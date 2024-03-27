@@ -14,7 +14,7 @@ REGION_NAME = os.environ['REGION_NAME']
 
 # TODO load TELEGRAM_TOKEN value from Secret Manager
 def get_secret():
-    secret_name = "MoshikoSecret"
+    secret_name = "MoshikoSecret-Dev"
 
     # Create a Secrets Manager client
     session = boto3.session.Session()
