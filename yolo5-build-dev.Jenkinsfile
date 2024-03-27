@@ -8,7 +8,7 @@ pipeline {
         stage('Build') {
             steps {
                 // Navigate to the directory containing Dockerfile
-                dir('polybot') {
+                dir('yolo5') {
                     sh """
                         pwd
                         echo \${BUILD_NUMBER}
