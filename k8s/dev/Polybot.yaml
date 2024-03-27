@@ -20,7 +20,7 @@ spec:
             secretName: tls-secret
       containers:
       - name: poly
-        image: moshikozana/poly-aws:latestv2
+        image: moshikozana/cicd-poly:30
         env:
           - name: REGION_NAME
             value: "eu-north-1"
@@ -37,6 +37,19 @@ spec:
           limits:
             memory: "200Mi"
             cpu: "200m"
+        readinessProbe:
+          httpGet:
+            path: "/ready"
+            port: 8443
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: "/"
+            port: 8443
+          initialDelaySeconds: 10
+          periodSeconds: 20
+
 ---
 apiVersion: v1
 kind: Service
