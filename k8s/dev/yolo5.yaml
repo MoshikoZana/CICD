@@ -23,8 +23,8 @@ spec:
           - name: REGION_NAME
             value: "eu-north-1"
           - name: SQS_QUEUE_NAME
-            value: https://sqs.eu-north-1.amazonaws.com/352708296901/MoshikoSQS
+            value: https://sqs.eu-north-1.amazonaws.com/352708296901/MoshikoSQS-Dev
           - name: BUCKET_NAME
-            value: moshikosbucket
+            value: moshikosbucket-dev
           - name: DYNAMO_TABLE
-            value: Moshiko_Yolo
+            value: Moshiko-Yolo-Dev
