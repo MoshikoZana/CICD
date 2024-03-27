@@ -22,7 +22,7 @@ class Bot:
         time.sleep(0.5)
 
         # set the webhook URL
-        self.telegram_bot_client.set_webhook(url=f'{telegram_chat_url}/{token}/', timeout=60, certificate=open ("/tls-volume/tls.crt", 'r'))
+        self.telegram_bot_client.set_webhook(url=f'{telegram_chat_url}/{token}/', timeout=60, certificate=open ("/devtls-volume/tls.crt", 'r'))
 
         logger.info(f'Telegram Bot information\n\n{self.telegram_bot_client.get_me()}')
 
@@ -80,7 +80,7 @@ class ObjectDetectionBot(Bot):
         super().__init__(token, telegram_chat_url)
         self.s3_client = boto3.client('s3')
         self.sqs_client = boto3.client('sqs', region_name=REGION_NAME)
-        self.sqs_queue_url = 'https://sqs.eu-north-1.amazonaws.com/352708296901/MoshikoSQS'
+        self.sqs_queue_url = 'https://sqs.eu-north-1.amazonaws.com/352708296901/MoshikoSQS-Dev'
 
     def handle_message(self, msg):
         logger.info(f'Incoming message: {msg}')
@@ -89,7 +89,7 @@ class ObjectDetectionBot(Bot):
         if self.is_current_msg_photo(msg):
             self.send_text(chat_id, "Your image is being processed. Please wait...")
             photo_download = self.download_user_photo(msg)
-            s3_bucket = "moshikosbucket"
+            s3_bucket = "moshikosbucket-dev"
             img_name = f'tg-photos/{photo_download}'
             self.s3_client.upload_file(photo_download, s3_bucket, img_name)
             # yolo_summary = self.yolo5_request(img_name)  # Get YOLOv5 summary

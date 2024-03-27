@@ -15,9 +15,9 @@ spec:
         app: poly
     spec:
       volumes:
-        - name: tls-volume
+        - name: devtls-volume
           secret:
-            secretName: tls-secret
+            secretName: polybotdev-tls-secret
       containers:
       - name: poly
         image: moshikozana/poly-aws:latestv2
@@ -25,11 +25,11 @@ spec:
           - name: REGION_NAME
             value: "eu-north-1"
           - name: TELEGRAM_APP_URL
-            value: moshiko-bot.devops-int-college.com
+            value: moshiko-dev-bot.devops-int-college.com
         volumeMounts:
-        - name: tls-volume
+        - name: devtls-volume
           readOnly: true
-          mountPath: "/tls-volume"
+          mountPath: "/devtls-volume"
         resources:
           requests:
             memory: "100Mi"
@@ -41,7 +41,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: poly-service
+  name: poly-service-dev
 spec:
   selector:
     app: poly

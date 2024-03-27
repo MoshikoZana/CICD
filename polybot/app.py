@@ -59,7 +59,7 @@ def results():
     chat_id = request.args.get('chatId')
     # TODO use the prediction_id to retrieve results from DynamoDB and send to the end-user
     dynamodb = boto3.resource('dynamodb', region_name=REGION_NAME)
-    table = dynamodb.Table('Moshiko_Yolo')
+    table = dynamodb.Table('Moshiko-Yolo-Dev')
 
     try:
         response = table.get_item(
@@ -90,3 +90,7 @@ if __name__ == "__main__":
     bot = ObjectDetectionBot(TELEGRAM_TOKEN, TELEGRAM_APP_URL)
 
     app.run(host='0.0.0.0', port=8443)
+
+    # TODO Add signal def
+    # TODO Add server readiness and liveness factors
+
