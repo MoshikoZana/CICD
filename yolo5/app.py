@@ -121,7 +121,7 @@ def consume():
 
                 # TODO perform a GET request to Polybot to `/results` endpoint
 
-                service_name = 'poly-service:8443'
+                service_name = 'poly-service-dev:8443'
                 endpoint = f'https://{service_name}/results/?predictionId={prediction_id}&chatId={chat_id}'
 
                 try:
