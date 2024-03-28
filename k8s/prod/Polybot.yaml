@@ -20,7 +20,7 @@ spec:
             secretName: tls-secret
       containers:
       - name: poly
-        image: moshikozana/poly-aws:latestv2
+        image: 1234
         env:
           - name: REGION_NAME
             value: "eu-north-1"
