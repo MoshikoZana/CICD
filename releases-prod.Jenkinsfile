@@ -39,7 +39,7 @@ def polybotSteps() {
         git config --global user.email "Jenkins@ip-10-0-0-178"
         git config --global user.name "Jenkins"
         git checkout releases
-        git merge origin/main
+        git branch
 
         sed -i "s|image: .*|image: ${POLYBOT_PROD_IMAGE_URL}|g" k8s/prod/Polybot.yaml
 
@@ -58,7 +58,7 @@ def yolo5Steps() {
         git config --global user.email "Jenkins@ip-10-0-0-178"
         git config --global user.name "Jenkins"
         git checkout releases
-        git merge origin/main
+        git branch
         sed -i "s|image: .*|image: ${YOLO5_PROD_IMAGE_URL}|g" k8s/prod/yolo5.yaml
         cat k8s/prod/yolo5.yaml
         git add k8s/prod/yolo5.yaml
