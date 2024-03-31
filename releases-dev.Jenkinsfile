@@ -18,7 +18,7 @@ pipeline {
                     cat k8s/dev/Polybot.yaml
                     git add k8s/dev/Polybot.yaml
                     git commit -m "$POLYBOT_DEV_IMAGE_URL"
-                    git push https://moshikozana:$PASSWORD@github.com/MoshikoZana/Object-Detection-Service-CICD.git releases
+                    git push https://moshikozana:$PASSWORD@github.com/MoshikoZana/Object-Detection-Service-CICD.git dev
                     """
                 }
             }
