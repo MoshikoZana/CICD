@@ -39,8 +39,8 @@ pipeline {
 
         stage('Trigger Deploy job') {
             steps {
-                build job: 'releases-dev', wait: false, parameters: [
-                    string(name: 'POLYBOT_DEV_IMAGE_URL', value: "${IMAGE_URL}:dev.\${BUILD_NUMBER}")
+                build job: 'yolo5-dev-releases', wait: false, parameters: [
+                    string(name: 'YOLO5_DEV_IMAGE_URL', value: "${IMAGE_URL}:dev.\${BUILD_NUMBER}")
                 ]
             }
         }
