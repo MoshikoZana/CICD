@@ -20,7 +20,7 @@ spec:
             secretName: polybotdev-tls-secret
       containers:
       - name: poly
-        image: 12345
+        image: moshikozana/cicd-poly-dev:dev.20
         env:
           - name: REGION_NAME
             value: "eu-north-1"
