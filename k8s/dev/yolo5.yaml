@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: yolov5
-        image: moshikozana/cicd-yolo-dev:dev.8
+        image: moshikozana/cicd-yolo-dev:dev.30
         env:
           - name: REGION_NAME
             value: "eu-north-1"
