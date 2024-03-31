@@ -13,7 +13,7 @@ pipeline {
                     git config --global user.name "Jenkins"
                     git checkout dev
 
-                    sed -i "s|image: .*|image: ${YOLO5_DEV_IMAGE_URL}|g" k8s/dev/Polybot.yaml
+                    sed -i "s|image: .*|image: ${YOLO5_DEV_IMAGE_URL}|g" k8s/dev/yolo5.yaml
 
                     cat k8s/dev/yolo5.yaml
                     git add k8s/dev/yolo5.yaml

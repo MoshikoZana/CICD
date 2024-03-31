@@ -122,7 +122,7 @@ def consume():
                 # TODO perform a GET request to Polybot to `/results` endpoint
 
                 service_name = 'poly-service-dev:8443'
-                endpoint = f'https://{service_name}/results/?predictionId={prediction_id}&chatId={chat_id}'
+                endpoint = f'http://{service_name}/results/?predictionId={prediction_id}&chatId={chat_id}'
 
                 try:
                     response = requests.get(endpoint, json=prediction_summary)
