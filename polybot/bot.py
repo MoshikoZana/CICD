@@ -146,7 +146,4 @@ class ObjectDetectionBot(Bot):
         else:
             self.send_text(chat_id, "No objects detected in the image.")
 
-    # TODO upload the photo to S3
-    # TODO send a job to the SQS queue
-    # TODO send message to the Telegram end-user (e.g. Your image is being processed. Please wait...)
-    # Hello!! :D
+
