@@ -128,9 +128,12 @@ class ObjectDetectionBot(Bot):
         summary_str = ""
 
         try:
-            # Check if yolo_summary is valid JSON and has "labels" key
-            if isinstance(yolo_summary, dict) and "labels" in yolo_summary:
-                labels = yolo_summary["labels"]
+            # Check if yolo_summary is valid JSON and has "prediction_summary" key
+            if isinstance(yolo_summary, dict) and "prediction_summary" in yolo_summary:
+                # Parse the nested JSON string
+                prediction_summary = json.loads(yolo_summary["prediction_summary"])
+
+                labels = prediction_summary["labels"]
                 summary_dict = {}
 
                 # Handle different potential structures for labels within YOLO summary
