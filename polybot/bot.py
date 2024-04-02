@@ -125,50 +125,26 @@ class ObjectDetectionBot(Bot):
             return {"error": f"Error response from YOLOv5 API: {response.status_code}"}
 
     def send_summary_to_user(self, chat_id, yolo_summary):
-        summary_str = ""
+        if isinstance(yolo_summary, dict) and "labels" in yolo_summary:
+            labels = yolo_summary["labels"]
+            summary_dict = {}
 
-        try:
-            # Check if yolo_summary is valid JSON and has "prediction_summary" key
-            if isinstance(yolo_summary, dict) and "prediction_summary" in yolo_summary:
-                # Parse the nested JSON string
-                prediction_summary = json.loads(yolo_summary["prediction_summary"])
+            for label in labels:
+                object_class = label['class']
 
-                labels = prediction_summary["labels"]
-                summary_dict = {}
-
-                # Handle different potential structures for labels within YOLO summary
-                if isinstance(labels[0], dict):  # Labels are dictionaries with "class" key
-                    for label in labels:
-                        object_class = label['class']
-                        self.update_summary_dict(summary_dict, object_class)
-                elif isinstance(labels[0], list):  # Labels are lists with class as the first element
-                    for label in labels:
-                        object_class = label[0]
-                        self.update_summary_dict(summary_dict, object_class)
+                if object_class in summary_dict:
+                    summary_dict[object_class]['count'] += 1
                 else:
-                    # Handle unexpected label format (log or raise error)
-                    logger.warning("Unexpected format for labels in YOLO summary")
-                    return
+                    summary_dict[object_class] = {'count': 1}
 
-                # Build the summary string
-                summary_str = "Objects detected:\n"
-                for object_class, info in summary_dict.items():
-                    count = info['count']
-                    summary_str += f"{object_class}: {count}\n"
+            summary_str = "Objects detected:\n"
+            for object_class, info in summary_dict.items():
+                count = info['count']
+                summary_str += f"{object_class}: {count}\n"
 
-            else:
-                summary_str = "Invalid YOLO summary format."
-        except (KeyError, json.JSONDecodeError):
-            summary_str = "Error processing YOLO summary."
-
-        self.send_text(chat_id, summary_str)
-
-    # Helper function to update the summary dictionary
-    def update_summary_dict(self, summary_dict, object_class):
-        if object_class in summary_dict:
-            summary_dict[object_class]['count'] += 1
+            self.send_text(chat_id, summary_str)
         else:
-            summary_dict[object_class] = {'count': 1}
+            self.send_text(chat_id, "No objects detected in the image.")
 
     # TODO upload the photo to S3
     # TODO send a job to the SQS queue
