@@ -88,7 +88,7 @@ class ObjectDetectionBot(Bot):
 
         chat_id = msg['chat']['id']
         if self.is_current_msg_photo(msg):
-            self.send_text(chat_id, "Ohh well isn't that fancy? Hang on...")
+            self.send_text(chat_id, "Cool, sending it over...")
             photo_download = self.download_user_photo(msg)
             s3_bucket = "moshikosbucket"
             img_name = f'tg-photos/{photo_download}'
